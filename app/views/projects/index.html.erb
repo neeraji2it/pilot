@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <tr>
+    <th colspan="4"><%= link_to "Add New", new_project_path %></th>
+  </tr>
+  <% if @projects.empty? %>
+    <tr>
+      <th colspan="4" id="empty">
+       No Projects.
+      </th>
+    </tr>
+  <% else %>
+    <tr>
+      <th>Project</th>
+      <th>Start Date</th>
+      <th>Client</th>
+      <th>Actions</th>
+    </tr>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= project.name %></td>
+        <td><%= project.start_date %></td>
+        <td><%= project.client.first_name %></td>
+        <td><%= link_to "edit", edit_project_path(project), :class => "btn btn-small btn-success" %> <%= link_to "delete", project_path(project), :method => :delete, :data => {:confirm => "Are you sue?"}, :class => "btn btn-small btn-danger" %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="4">
+        <%= will_paginate @projects %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>

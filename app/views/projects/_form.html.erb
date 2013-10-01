@@ -1,0 +1,31 @@
+<h2>New Project</h2>
+<%= form_for(@project) do |f| %>
+<% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= I18n.t("errors.messages.not_saved",
+                      :count => pluralize(@project.errors.count, "error"),
+                      :resource => @project.class.model_name.human.downcase) %></h2>
+      <ul>
+        <% @project.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<table width="100%" cellpadding="10px;" cellspacing="10px;">
+  <tr>
+    <td>Project: &nbsp;&nbsp;&nbsp;<%= f.text_field :name, :placeholder => "Name" %></td>
+    <td>Client: &nbsp;&nbsp;&nbsp;<%= f.select :client_id, options_for_select(Client.all.map{|c| [c.first_name, c.id]}) %></td>
+  </tr>
+  <tr>
+    <td>Start Date: &nbsp;&nbsp;&nbsp;<%= f.date_select("start_date", {:order => [:day, :month, :year], :end_year => Time.now.strftime('%Y').to_i + 30,  :start_year => Time.now.strftime('%Y').to_i, :use_month_numbers => true}, {:style => "width: 71px;"}) %></td>
+    <td>Due Date: &nbsp;&nbsp;&nbsp;<%= f.date_select("due_date", {:order => [:day, :month, :year], :end_year => Time.now.strftime('%Y').to_i + 30,  :start_year => Time.now.strftime('%Y').to_i, :use_month_numbers => true}, {:style => "width: 71px;"}) %></td>
+  </tr>
+  <tr>
+    <td colspan="2">Description: &nbsp;&nbsp;&nbsp;<%= f.text_area :description, :placeholder => "Name" %></td>
+  </tr>
+   <tr>
+    <td colspan="2"><%= f.submit :save %></td>
+  </tr>
+</table>
+<% end %>
